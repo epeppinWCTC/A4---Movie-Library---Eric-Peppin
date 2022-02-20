@@ -50,8 +50,18 @@ namespace A4___Movie_Library___Eric_Peppin.Data
             }
             else
             {
+                UInt64 movieId;
                 // generate movie id - use max value in MovieIds + 1
-                UInt64 movieId = MovieIds.Max() + 1;
+                if (MovieIds.Count > 0)
+                {
+                    movieId = MovieIds.Max() + 1;
+                }
+                else
+                {
+                    movieId = 1;
+                }
+                
+
                 // input genres
                 List<string> genres = new List<string>();
                 string genre;
