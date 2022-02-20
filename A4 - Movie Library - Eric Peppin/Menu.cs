@@ -29,6 +29,7 @@ namespace A4___Movie_Library___Eric_Peppin
             else if (returnKey == '1')
             {
                 fileHandler.Read();
+                fileHandler.DisplayMovies();
             }
 
 

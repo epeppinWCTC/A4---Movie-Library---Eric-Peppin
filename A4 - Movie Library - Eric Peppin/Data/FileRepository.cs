@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace A4___Movie_Library___Eric_Peppin.Data
@@ -37,7 +38,7 @@ namespace A4___Movie_Library___Eric_Peppin.Data
                 .AddLogging(x => x.AddConsole())
                 .BuildServiceProvider();
             var logger = serviceProvider.GetService<ILoggerFactory>().CreateLogger<Program>();
-
+            Read();
             Console.WriteLine("Enter the movie title");
             // input title
             string movieTitle = Console.ReadLine();
@@ -104,6 +105,19 @@ namespace A4___Movie_Library___Eric_Peppin.Data
             }
         }
 
+        public void DisplayMovies()
+        {
+
+            for (int i = 0; i < MovieIds.Count; i++)
+            {
+                StringBuilder sb = new StringBuilder();
+                // display movie details
+                sb.Append($"Id: {MovieIds[i]}");
+                Console.WriteLine($"Title: {MovieTitles[i]}");
+                Console.WriteLine($"Genre(s): {MovieGenres[i]}");
+                Console.WriteLine();
+            }
+        }
         public void Read()
         {
             StreamReader sr = new StreamReader(_file);
@@ -133,14 +147,7 @@ namespace A4___Movie_Library___Eric_Peppin.Data
             sr.Close();
             //List<String> movieList = new List<string>();
 
-            for (int i = 0; i < MovieIds.Count; i++)
-            {
-                // display movie details
-                Console.WriteLine($"Id: {MovieIds[i]}");
-                Console.WriteLine($"Title: {MovieTitles[i]}");
-                Console.WriteLine($"Genre(s): {MovieGenres[i]}");
-                Console.WriteLine();
-            }
+            
 
         }
 
