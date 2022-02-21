@@ -14,7 +14,7 @@ namespace A4___Movie_Library___Eric_Peppin.Data
 
 
 
-        private readonly string _file = $"{Environment.CurrentDirectory}/Files/movies.csv";
+        private readonly string _file = $"{Environment.CurrentDirectory}/Files/MoviesShort.csv";
         List<UInt64> MovieIds = new List<UInt64>();
         List<string> MovieTitles = new List<string>();
         List<string> MovieGenres = new List<string>();
