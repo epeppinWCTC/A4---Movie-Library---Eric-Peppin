@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using A4___Movie_Library___Eric_Peppin;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
-namespace A4___Movie_Library___Eric_Peppin;
 
 class Program
 {

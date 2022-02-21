@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -108,6 +112,7 @@ namespace A4___Movie_Library___Eric_Peppin.Data
         public void DisplayMovies()
         {
 
+            
             for (int i = 0; i < MovieIds.Count; i++)
             {
                 StringBuilder sb = new StringBuilder();

@@ -1,4 +1,6 @@
-﻿using A4___Movie_Library___Eric_Peppin.Data;
+﻿using System;
+using System.Collections.Generic;
+using A4___Movie_Library___Eric_Peppin.Data;
 
 namespace A4___Movie_Library___Eric_Peppin
 {
