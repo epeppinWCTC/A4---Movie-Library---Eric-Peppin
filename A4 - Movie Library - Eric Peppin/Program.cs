@@ -1,4 +1,6 @@
-﻿using A4___Movie_Library___Eric_Peppin;
+﻿using System;
+using A4___Movie_Library___Eric_Peppin;
+using A4___Movie_Library___Eric_Peppin.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -6,17 +8,18 @@ class Program
 {
     public static void Main(string[] args)
     {
-        IServiceCollection serviceCollection = new ServiceCollection();
-        var serviceProvider = serviceCollection
-            .AddLogging(x => x.AddConsole())
-            .BuildServiceProvider();
-        var logger = serviceProvider.GetService<ILoggerFactory>().CreateLogger<Program>();
+        try
+        {
+            var startup = new Startup();
+            var serviceProvider = startup.ConfigureServices();
+            var service = serviceProvider.GetService<IMainService>();
 
-
-        logger.LogInformation("Start of program");
-        var menu = new Menu();
-
-
+            service?.Invoke();
+        }
+        catch (Exception e)
+        {
+            Console.Error.WriteLine(e);
+        }
 
 
 

@@ -3,55 +3,52 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace A4___Movie_Library___Eric_Peppin.Data
 {
 
-    public class FileRepository
+    public class FileService : IFileService
     {
 
 
 
-        private readonly string _file = $"{Environment.CurrentDirectory}/Files/MoviesShort.csv";
+        private readonly string _movieFile = $"{Environment.CurrentDirectory}/Files/MoviesShort.csv";
+        private readonly string _showFile = $"{Environment.CurrentDirectory}/Files/shows.csv";
+        private readonly string _videoFile = $"{Environment.CurrentDirectory}/Files/videos.csv";
         List<UInt64> MovieIds = new List<UInt64>();
-        List<string> MovieTitles = new List<string>();
+        List<string?> MovieTitles = new List<string?>();
         List<string> MovieGenres = new List<string>();
+        private readonly ILogger<IFileService> _logger;
 
-        public FileRepository()
+        public FileService(ILogger<IFileService> logger)
         {
-            IServiceCollection serviceCollection = new ServiceCollection();
-            var serviceProvider = serviceCollection
-                .AddLogging(x => x.AddConsole())
-                .BuildServiceProvider();
-            var logger = serviceProvider.GetService<ILoggerFactory>().CreateLogger<Program>();
+            _logger = logger;
 
-            if (!File.Exists(_file))
+            if (!File.Exists(_movieFile))
             {
-                logger.LogError("File Not Found");
+                _logger.LogError("File Not Found");
             }
 
         }
 
-        public void Add()
-        {
 
-            IServiceCollection serviceCollection = new ServiceCollection();
-            var serviceProvider = serviceCollection
-                .AddLogging(x => x.AddConsole())
-                .BuildServiceProvider();
-            var logger = serviceProvider.GetService<ILoggerFactory>().CreateLogger<Program>();
-            Read();
+
+        public void Write(string file)
+        {
+            
+            Read(file);
             Console.WriteLine("Enter the movie title");
             // input title
-            string movieTitle = Console.ReadLine();
+            string? movieTitle = Console.ReadLine();
             // check for duplicate title
-            List<string> LowerCaseMovieTitles = MovieTitles.ConvertAll(t => t.ToLower());
-            if (LowerCaseMovieTitles.Contains(movieTitle.ToLower()))
+            List<string> lowerCaseMovieTitles = MovieTitles.ConvertAll(t => t.ToLower());
+            if (lowerCaseMovieTitles.Contains(movieTitle.ToLower()))
             {
                 Console.WriteLine("That movie has already been entered");
-                logger.LogInformation("Duplicate movie title {Title}", movieTitle);
+                _logger.LogInformation("Duplicate movie title {Title}", movieTitle);
             }
             else
             {
@@ -97,7 +94,7 @@ namespace A4___Movie_Library___Eric_Peppin.Data
                 // display movie id, title, genres
                 Console.WriteLine($"{movieId},{movieTitle},{genresString}");
                 // create file from data
-                StreamWriter sw = new StreamWriter(_file, true);
+                StreamWriter sw = new StreamWriter(_movieFile, true);
                 sw.WriteLine($"{movieId},{movieTitle},{genresString}");
                 sw.Close();
                 // add movie details to Lists
@@ -105,27 +102,27 @@ namespace A4___Movie_Library___Eric_Peppin.Data
                 MovieTitles.Add(movieTitle);
                 MovieGenres.Add(genresString);
                 // log transaction
-                logger.LogInformation("Movie id {Id} added", movieId);
+                _logger.LogInformation("Movie id {Id} added", movieId);
             }
         }
 
-        public void DisplayMovies()
+        public void DisplayItems()
         {
 
             
             for (int i = 0; i < MovieIds.Count; i++)
             {
-                StringBuilder sb = new StringBuilder();
+                
                 // display movie details
-                sb.Append($"Id: {MovieIds[i]}");
+                Console.WriteLine($"Id: {MovieIds[i]}");
                 Console.WriteLine($"Title: {MovieTitles[i]}");
                 Console.WriteLine($"Genre(s): {MovieGenres[i]}");
                 Console.WriteLine();
             }
         }
-        public void Read()
+        public void Read(string file)
         {
-            StreamReader sr = new StreamReader(_file);
+            StreamReader sr = new StreamReader(file);
             sr.ReadLine();
             while (!sr.EndOfStream)
             {
@@ -133,7 +130,8 @@ namespace A4___Movie_Library___Eric_Peppin.Data
                 int idx = line.IndexOf('"');
                 if (idx == -1)
                 {
-                    string[] movieDetails = line.Split(',');
+                    string?[] movieDetails = line.Split(',');
+                    
                     MovieIds.Add(UInt64.Parse(movieDetails[0]));
                     MovieTitles.Add(movieDetails[1]);
                     MovieGenres.Add(movieDetails[2].Replace("|", ", "));
