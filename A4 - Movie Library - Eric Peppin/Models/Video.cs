@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace A4___Movie_Library___Eric_Peppin
 {
@@ -7,9 +8,15 @@ namespace A4___Movie_Library___Eric_Peppin
         public string? Format { get; set;}
         public int Length { get; set; }
         public int[]? Regions { get; set; }
-        public override string Display()
+        public override void Display(string file)
         {
-            throw new NotImplementedException();
+            StreamReader sr = new StreamReader(file);
+            sr.ReadLine();
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                Console.WriteLine(line);
+            }sr.Close();
         }
     }
 }

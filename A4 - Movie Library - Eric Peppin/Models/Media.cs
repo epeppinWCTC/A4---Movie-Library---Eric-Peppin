@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string? Title { get; set; }
 
-        public abstract string Display();
+        public abstract void Display(string file);
     }
 }

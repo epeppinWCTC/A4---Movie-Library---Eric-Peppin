@@ -127,24 +127,21 @@ namespace A4___Movie_Library___Eric_Peppin.Data
             while (!sr.EndOfStream)
             {
                 string line = sr.ReadLine();
-                int idx = line.IndexOf('"');
-                if (idx == -1)
-                {
-                    string?[] movieDetails = line.Split(',');
-                    
-                    MovieIds.Add(UInt64.Parse(movieDetails[0]));
-                    MovieTitles.Add(movieDetails[1]);
-                    MovieGenres.Add(movieDetails[2].Replace("|", ", "));
-                }
-                else
-                {
-                    MovieIds.Add(UInt64.Parse(line.Substring(0, idx - 1)));
-                    line = line.Substring(idx + 1);
-                    idx = line.IndexOf('"');
-                    MovieTitles.Add(line.Substring(0, idx));
-                    line = line.Substring(idx + 2);
-                    MovieGenres.Add(line.Replace("|", ", "));
-                }
+                Console.WriteLine(line);
+                // int idx = line.IndexOf('"');
+                // if (idx == -1)
+                // {
+                //     Console.WriteLine(line);
+                // }
+                // else
+                // {
+                //     MovieIds.Add(UInt64.Parse(line.Substring(0, idx - 1)));
+                //     line = line.Substring(idx + 1);
+                //     idx = line.IndexOf('"');
+                //     MovieTitles.Add(line.Substring(0, idx));
+                //     line = line.Substring(idx + 2);
+                //     MovieGenres.Add(line.Replace("|", ", "));
+                // }
             }
 
             sr.Close();

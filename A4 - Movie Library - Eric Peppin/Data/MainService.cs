@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using A4___Movie_Library___Eric_Peppin.Models;
 using Microsoft.Extensions.Logging;
 
 namespace A4___Movie_Library___Eric_Peppin.Data
@@ -20,34 +21,38 @@ namespace A4___Movie_Library___Eric_Peppin.Data
 
         public void Invoke()
         {
+            var returnKey = _exitKey;
+            do
+            {
             Console.WriteLine("1. List Movies");
             Console.WriteLine("2. List Shows");
             Console.WriteLine("3. List Videos");
             //Console.WriteLine("2. Add Movie");
-            var returnKey = GetMenuSelection();
-            do
-            {
-                if (returnKey == '3')
+            returnKey = GetMenuSelection();
+            if (returnKey == '3')
                 {
-                    _fileService.Read(_videoFile);
-                    _fileService.DisplayItems();
+                    Console.WriteLine();
+                    Media video = new Video();
+                    video.Display(_videoFile);
                 }
                 else if (returnKey == '2')
                 {
-                    _fileService.Read(_showFile);
-                    _fileService.DisplayItems();
+                    Console.WriteLine();
+                    Media show = new Show();
+                    show.Display(_showFile);
                 }
                 else if (returnKey == '1')
                 {
-                    _fileService.Read(_movieFile);
-                    _fileService.DisplayItems();
+                    Console.WriteLine();
+                    Media movie = new Movie();
+                    movie.Display(_movieFile);
                 }
             } while (returnKey != _exitKey);
         }
 
         public char GetMenuSelection()
         {
-            Console.Write($"Select ({_validChars[0]}, {_validChars[1]}, {_exitKey})>");
+            Console.Write($"Select ({_validChars[0]},{_validChars[1]},{_validChars[2]},{_exitKey})>");
             var key = Console.ReadKey().KeyChar;
             while (Equals(!_validChars.Contains(key)))
             {
