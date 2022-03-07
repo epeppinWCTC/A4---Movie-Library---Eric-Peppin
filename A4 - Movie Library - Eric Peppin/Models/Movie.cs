@@ -5,7 +5,7 @@ namespace A4___Movie_Library___Eric_Peppin.Models
 {
     public class Movie : Media
     {
-        public string[]? Genres { get; set; }
+        public string? Genres { get; set; }
 
         public override void Display(string file)
         {

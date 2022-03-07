@@ -19,7 +19,7 @@ namespace A4___Movie_Library___Eric_Peppin
 
             // Add new lines of code here to register any interfaces and concrete services you create
             services.AddTransient<IMainService, MainService>();
-            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IRepository, JSONRepository>();
 
             return services.BuildServiceProvider();
         }
